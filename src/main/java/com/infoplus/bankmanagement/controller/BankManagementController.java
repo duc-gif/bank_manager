@@ -33,29 +33,26 @@ public class BankManagementController {
 
     @PostMapping(value = "/add")
     public ResponseEntity<?> addBankManagement(@RequestBody BankManagementDto bankManagementDto) {
-        return ResponseEntity.ok(new Res(bankManagementService.save(bankManagementDto), "Thêm thành công", true));
+        return ResponseEntity.ok(new Res(bankManagementService.save(bankManagementDto), "Create successful", true));
     }
     @PostMapping(value = "/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody BankManagementDto bankManagementDto) {
         Optional<BankManagement> bankManagement = bankManagementService.findById(id);
-
         BankManagement bank = objectMappers.convertValue(bankManagement, BankManagement.class);
         bank.setId(id);
         bank.setBankCode(bankManagementDto.getBankCode());
         bank.setBankName(bankManagementDto.getBankName());
         bank.setBinCode(bankManagementDto.getBinCode());
         BankManagement bankMg = bankManagementService.saveAndFlush(bank);
-        return ResponseEntity.ok(new Res(bankMg, "Cập nhật thành công", true));
+        return ResponseEntity.ok(new Res(bankMg, "Update successful", true));
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/close/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id, @RequestBody BankManagementDto bankManagementDto) {
         Optional<BankManagement> bankManagement = bankManagementService.findById(id);
-
         BankManagement bank = objectMappers.convertValue(bankManagement, BankManagement.class);
         bank.setId(id);
-        bank.setActive(false);
         BankManagement bankMg = bankManagementService.saveAndFlush(bank);
-        return ResponseEntity.ok(new Res(bankMg, "Cập nhật thành công", true));
+        return ResponseEntity.ok(new Res(bankMg, "Close successful", true));
     }
     }
