@@ -40,8 +40,6 @@ public class BankManagementServiceImpl implements BankManagementService {
 
     @Override
     public BankManagement saveAndFlush(BankManagement bankManagement) {
-        BankManagement bank = objectMappers.convertValue(bankManagement, BankManagement.class);
-        bank.setActive(false);
         return repository.saveAndFlush(bankManagement);
     }
 

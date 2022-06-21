@@ -27,8 +27,8 @@ public class BankManagementController {
     private BankManagementService bankManagementService;
 
     @GetMapping("/list")
-    public List<BankManagement> findAll() {
-        return bankManagementService.getAllListBankManagement();
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(bankManagementService.getAllListBankManagement());
     }
 
     @PostMapping(value = "/add")
@@ -52,6 +52,7 @@ public class BankManagementController {
         Optional<BankManagement> bankManagement = bankManagementService.findById(id);
         BankManagement bank = objectMappers.convertValue(bankManagement, BankManagement.class);
         bank.setId(id);
+        bank.setActive(false);
         BankManagement bankMg = bankManagementService.saveAndFlush(bank);
         return ResponseEntity.ok(new Res(bankMg, "Close successful", true));
     }
